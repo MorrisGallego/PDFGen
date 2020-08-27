@@ -1,6 +1,7 @@
-import { TemplateLoader, TemplateServer } from './Templates.mjs';
-import { PDFGenerator } from './Generator.mjs';
-import { Server } from './Server.mjs';
+import { TemplateLoader, TemplateServer } from './Templates.mjs'
+import { PDFGenerator } from './Generator.mjs'
+import { Server } from './Server.mjs'
+import * as Logger from './Logger.mjs'
 
 const TEMPLATE_PATH = process.env.TEMPLATE_PATH || '../template'
 const POOL_SIZE = process.env.POOL_SIZE || 4
@@ -16,4 +17,4 @@ async function main() {
     server.serve()
 }
 
-main().catch(e => console.error('Something strange happened!', e))
+main().catch(e => Logger.error('Something strange happened!', e))

@@ -14,3 +14,5 @@ services:
       - PORT=8000
       - POOL_SIZE=4
       - TEMPLATE_PATH=/opt/pdfgen/template
+      - LOG_LEVEL=debug
+      - LOG_PATH=/var/log/pdfgen

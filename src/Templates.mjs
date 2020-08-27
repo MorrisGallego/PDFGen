@@ -2,6 +2,8 @@ import { existsSync, readdirSync } from 'fs'
 import { extname } from 'path'
 import express from 'express'
 import consolidate from 'consolidate'
+import * as Logger from './Logger.mjs'
+
 const SUPPORTED_EXTENSIONS = ['.html', '.ejs', '.hbs', '.pug', '.jsx']
 
 async function loadHooks(path) {
@@ -38,7 +40,7 @@ class TemplateServer {
     port = 0
 
     serve() {
-        console.log('Setting up internal template server...')
+        Logger.debug('Setting up internal template server...')
 
         const app = express()
         app.use(express.urlencoded({ extended: true }))
@@ -59,7 +61,7 @@ class TemplateServer {
         const server = app.listen(0)
         this.port = server.address().port
 
-        console.log(`Template server runing on port ${this.port}!`)
+        Logger.info(`Template server running on port ${this.port}!`)
     }
 }
 

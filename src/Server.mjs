@@ -1,25 +1,24 @@
-import express from 'express';
+import express from 'express'
+import * as Logger from './Logger.mjs'
 
 function handler(generator, extractor = req => req.body) {
     return async (req, res) => {
-        console.log(`[${req.ip}] Generating PDF with data:`)
-        console.table(extractor(req))
-
         let data = extractor(req)
+        Logger.info('Generating PDF with data', data)
 
         try {
             data = await generator.templateServer.template?.hooks?.onPreGenerate(req, res, data)
             let pdf = await generator.generate(data)
             pdf = await generator.templateServer.template?.hooks?.onPostGenerate(req, res, pdf)
 
-            console.log('PDF generated correctly!')
-            console.log('Sending PDF...')
+            Logger.debug('PDF generated correctly!')
+            Logger.debug('Sending PDF...')
 
             res.writeHead(200, {'content-disposition': `attachment;`})
             res.write(pdf, 'binary')
             res.end(null, 'binary')
 
-            console.log('PDF sent!')
+            Logger.debug('PDF sent!')
         } catch(e) {
             await generator.templateServer.template?.hooks?.onError(req, res, e)
         }
@@ -33,16 +32,17 @@ class Server {
     }
 
     serve() {
-        console.log('Creating public server')
+        Logger.info('Creating public server')
         const app = express()
         app.use(express.json())
         app.use(express.urlencoded({ extended: true }))
+        app.use(Logger.expressLogger)
 
         app.get('/', handler(this.generator, req => req.query))
         app.post('/', handler(this.generator))
 
         app.listen(this.port)
-        console.log(`Public server listening on port ${this.port}`)
+        Logger.info(`Public server listening on port ${this.port}`)
     }
 }
 
