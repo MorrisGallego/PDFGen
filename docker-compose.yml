@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  server:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - 8000
+    ports:
+      - 8000:8000
+    environment:
+      - PORT=8000
+      - POOL_SIZE=4
+      - TEMPLATE_PATH=/opt/pdfgen/template

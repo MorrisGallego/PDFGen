@@ -1,0 +1,54 @@
+html {
+    background-color: #CCC;
+    font-size: 16px;
+}
+
+body {
+    margin: 0;
+    width: 210mm;
+    height: 297mm;
+    background-color: white;
+    padding: 2cm 2.5cm;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    counter-reset: figure;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+h1 {
+    font-size: 4rem;
+    line-height: 1.2;
+    font-weight: 900;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+main {
+    flex: 1;
+}
+
+img {
+    width: 100%;
+    object-fit: contain;
+}
+
+figcaption {
+    font-size: 0.8rem;
+}
+
+figcaption::before{
+    counter-increment: figure;
+    content: 'Figure ' counter(figure) ': ';
+    font-weight: 900;
+}
+
+footer{
+    text-align: center;
+}
