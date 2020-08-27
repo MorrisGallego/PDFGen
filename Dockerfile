@@ -10,4 +10,4 @@ WORKDIR /opt/pdfgen
 RUN npm install
 
 EXPOSE 8000
-CMD npm start
+CMD node ./src/index.mjs
