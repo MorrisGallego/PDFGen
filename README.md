@@ -23,5 +23,5 @@ This hooks can be used to modify the data that will be used for the generation, 
 
 ## Docker deployment
 The tool can be deployed using docker. 
-You can specify your custom template mounting a volume in /opt/pdfgen/template.
-You can also specify the puppeteer pool size by setting the env variable PUPPETEER_POOL_SIZE to an integer value. 
+You can specify your custom template mounting a volume in the direction pointed by the env variable `TEMPLATE_PATH`.
+You can also specify the puppeteer pool size by setting the env variable `PUPPETEER_POOL_SIZE` to an integer value. 
