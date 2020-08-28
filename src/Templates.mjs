@@ -1,4 +1,5 @@
 import { existsSync, readdirSync } from 'fs'
+import { pathToFileURL } from 'url'
 import { extname } from 'path'
 import express from 'express'
 import consolidate from 'consolidate'
@@ -8,7 +9,7 @@ const SUPPORTED_EXTENSIONS = ['.html', '.ejs', '.hbs', '.pug', '.jsx']
 
 async function loadHooks(path) {
     if(existsSync(`${path}/hooks.mjs`))
-        return await import(`${path}/hooks.mjs`)
+        return await import(pathToFileURL(`${path}/hooks.mjs`))
     else return {}
 }
 
