@@ -14,7 +14,7 @@ function handler(generator, extractor = req => req.body) {
             Logger.debug('PDF generated correctly!')
             Logger.debug('Sending PDF...')
 
-            res.writeHead(200, {'content-disposition': `attachment;`})
+            res.writeHead(200, {'content-disposition': `attachment; filename="download.pdf"`})
             res.write(pdf, 'binary')
             res.end(null, 'binary')
 
