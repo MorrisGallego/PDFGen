@@ -7,9 +7,9 @@ function handler(generator, extractor = req => req.body) {
         Logger.info('Generating PDF with data', data)
 
         try {
-            data = await generator.templateServer.template?.hooks?.onPreGenerate(req, res, data)
+            data = await generator.templateServer.template?.hooks?.onPreGenerate?.(req, res, data)
             let pdf = await generator.generate(data)
-            pdf = await generator.templateServer.template?.hooks?.onPostGenerate(req, res, pdf)
+            pdf = await generator.templateServer.template?.hooks?.onPostGenerate?.(req, res, pdf)
 
             Logger.debug('PDF generated correctly!')
             Logger.debug('Sending PDF...')
@@ -20,7 +20,7 @@ function handler(generator, extractor = req => req.body) {
 
             Logger.debug('PDF sent!')
         } catch(e) {
-            await generator.templateServer.template?.hooks?.onError(req, res, e)
+            await generator.templateServer.template?.hooks?.onError?.(req, res, e)
         }
     }
 }

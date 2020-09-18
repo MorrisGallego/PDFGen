@@ -7,17 +7,21 @@ import * as Logger from './Logger.mjs'
 
 const SUPPORTED_EXTENSIONS = ['.html', '.ejs', '.hbs', '.pug', '.jsx']
 
-async function loadHooks(path) {
-    if(existsSync(`${path}/hooks.mjs`))
-        return await import(pathToFileURL(`${path}/hooks.mjs`))
-    else return {}
-}
-
 const fallbackHooks = {
     onError: async (req, res, err) => res.status(500).send(err.toString()),
-    onPreGenerate: async (req, res) => {},
+    onPreGenerate: async (req, res, data) => data,
     onPostGenerate: async (req, res, pdf) => pdf,
     onInit: async () => {}
+}
+
+async function loadHooks(path) {
+    if(existsSync(`${path}/hooks.mjs`)) {
+        const hooks = await import(pathToFileURL(`${path}/hooks.mjs`))
+
+        return {...fallbackHooks, ...hooks}
+    }
+
+    else return fallbackHooks
 }
 
 class TemplateLoader {
@@ -28,7 +32,7 @@ class TemplateLoader {
             throw new Error("Failed to load template file!")
         }
 
-        await hooks?.onInit()
+        await hooks?.onInit?.()
         return new Template(hooks, path, file)
     }
 }
@@ -68,7 +72,7 @@ class TemplateServer {
 
 class Template {
     constructor(hooks, path, file) {
-        this.hooks = { ...fallbackHooks, ...hooks }
+        this.hooks = hooks
         this.path = path
         this.file = file
     }

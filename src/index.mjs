@@ -1,9 +1,14 @@
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
 import { TemplateLoader, TemplateServer } from './Templates.mjs'
 import { PDFGenerator } from './Generator.mjs'
 import { Server } from './Server.mjs'
 import * as Logger from './Logger.mjs'
 
-const TEMPLATE_PATH = process.env.TEMPLATE_PATH || '../template'
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const TEMPLATE_PATH = process.env.TEMPLATE_PATH || `${__dirname}/../template`
 const POOL_SIZE = process.env.POOL_SIZE || 4
 const PORT = process.env.PORT || 80
 
